@@ -6,19 +6,24 @@ from models.arazzo import validate_arazzo_data, load_and_validate_arazzo_yaml
 
 SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
 
-EXAMPLE_FILE = os.path.join(SCRIPT_DIR, "examples", "example_1.yaml")
+EXAMPLE_FILES_DIR = os.path.join(SCRIPT_DIR, "examples")
 
 if __name__ == "__main__":
 
-    # Test against example from arazzo themselves
-    try:
-        print("--- Arazzo Example Validation ---")
-        arazzo_example = load_and_validate_arazzo_yaml(EXAMPLE_FILE)
-        print("Arazzo Example Validation Successful!")
-    except Exception as ex:
-        print(f"Arazzo Example Validation Failed: {ex}")
+    example_files = os.listdir(EXAMPLE_FILES_DIR)
 
-    print("\n" + "=" * 80 + "\n")
+    for example_file in example_files:
+        example_file_path = os.path.join(EXAMPLE_FILES_DIR, example_file)
+
+        # Test against example from arazzo themselves
+        try:
+            print(f"--- Arazzo Example Validation ({example_file}) ---")
+            arazzo_example = load_and_validate_arazzo_yaml(example_file_path)
+            print(f"Arazzo Example Validation ({example_file}) Successful!")
+        except Exception as ex:
+            print(f"Arazzo Example Validation ({example_file}) Failed: {ex}")
+
+        print("\n" + "=" * 80 + "\n")
 
     # Example Valid Arazzo Specification
     valid_arazzo_data = {
